@@ -1,3 +1,3 @@
-you can start your first spider with:
+you can start spider with:
 
-***scrapy genspider example example.com***
+***scrapy crawl Book_Labirint***
