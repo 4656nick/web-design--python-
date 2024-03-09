@@ -1,23 +1,14 @@
 import socket
-
-
-# Разработайте клиента и сервера, клиент будет запрашивать у пользователя название файла,
-# а затем отправлять содержимое этого файла серверу.
-# Сервер будет подсчитывать количество слов и возвращать ответ.
-
-def open_txt_file_with_binary():
-    filename = input("Введите имя файла: ")
-    readByte = open(filename, "rb")
-    data = readByte.read()
-    readByte.close()
-    return data
-
+import rsa
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect(('127.0.0.1', 9090))
+data = "test_data".encode()
 
-sock.send(open_txt_file_with_binary())
-response = sock.recv(1024).decode()
+sock.send("key".encode())
+public_key = sock.recv(1024)
+public_key = rsa.PublicKey.load_pkcs1(public_key)
+
+crypto = rsa.encrypt(data, public_key)
+sock.send(crypto)
 sock.close()
-
-print(str(response))
